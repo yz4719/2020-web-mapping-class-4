@@ -4,38 +4,38 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nLXFyaSIsImEiOiJjazZncWRkZGowb3kyM25vZ
 
 // we want to return to this point and zoom level after the user interacts
 // with the map, so store them in variables
-var initialCenterPoint = [-73.991780, 40.676]
-var initialZoom = 13
+var initialCenterPoint = [-73.942780, 40.696]
+var initialZoom = 10
 
-// a helper function for looking up colors and descriptions for NYC land use codes
+// a helper function for looking up colors and s for NYC land use codes
 var LandUseLookup = (code) => {
   switch (code) {
-    case I:
+    case 1:
       return {
         color: '#f4f455',
-        description: '1 & 2 Family',
+        description: 'I = Protected',
       };
 
-    case II:
+    case 2:
       return {
         color: '#ea6661',
-        description: 'Commercial & Office',
+        description: 'II = Conventional',
       };
 
-    case III:
+    case 3:
       return {
         color: '#8ece7c',
-        description: 'Open Space & Outdoor Recreation',
+        description: 'III = Signed/ Marked Route',
       };
 
-    case L:
+    case 4:
       return {
         color: '#5f5f60',
-        description: 'Other',
+        description: 'L = Link',
       };
     default:
       return {
-        color: '#5f5f60',
+        color: '#5ca2d1',
         description: 'Other',
       };
   }
@@ -43,7 +43,7 @@ var LandUseLookup = (code) => {
 
 // set the default text for the feature-info div
 
-var defaultText = '<p>Move the mouse over the map to get more info on a property</p>'
+var defaultText = '<p>Move the mouse over the map to get more info on highest facility class found along the route</p>'
 $('#feature-info').html(defaultText)
 
 // create an object to hold the initialization options for a mapboxGL map
@@ -84,20 +84,20 @@ map.on('style.load', function() {
         stops: [
           [
             'I',
-            LandUseLookup(I).color,
+            LandUseLookup(1).color,
           ],
           [
             'II',
-            LandUseLookup(II).color,
+            LandUseLookup(2).color,
           ],
           [
             'III',
-            LandUseLookup(III).color,
+            LandUseLookup(3).color,
           ],
 
           [
             'L',
-            LandUseLookup(L).color,
+            LandUseLookup(4).color,
           ],
 
         ]
@@ -141,9 +141,8 @@ map.on('style.load', function() {
 
       var hoveredFeature = features[0]
       var featureInfo = `
-        <h4>${hoveredFeature.properties.Address}</h4>
-        <p><strong>Land Use:</strong> ${LandUseLookup(parseInt(hoveredFeature.properties.LandUse)).description}</p>
-        <p><strong>Zoning:</strong> ${hoveredFeature.properties.ZoneDist1}</p>
+
+        <p><strong>CLASS </strong> ${LandUseLookup(parseInt(hoveredFeature.properties.facilitycl)).description}</p>
       `
       $('#feature-info').html(featureInfo)
 
