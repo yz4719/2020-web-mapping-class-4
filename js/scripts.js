@@ -75,10 +75,10 @@ map.on('style.load', function() {
   // add a layer for our custom source
   map.addLayer({
     id: 'fill-pluto-bk-cd6',
-    type: 'fill',
+    type: 'line',
     source: 'pluto-bk-cd6',
     paint: {
-      'fill-color': {
+      'line-color': {
         type: 'categorical',
         property: 'facilitycl',
         stops: [
