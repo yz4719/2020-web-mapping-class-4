@@ -70,7 +70,7 @@ map.on('style.load', function() {
   });
 
   // let's make sure the source got added by logging the current map state to the console
-  console.log(map.getStyle().sources)
+  // console.log(map.getStyle().sources)
 
   // add a layer for our custom source
   map.addLayer({
@@ -78,6 +78,7 @@ map.on('style.load', function() {
     type: 'line',
     source: 'pluto-bk-cd6',
     paint: {
+      'line-width': 3,
       'line-color': {
         type: 'categorical',
         property: 'facilitycl',
@@ -162,5 +163,4 @@ map.on('style.load', function() {
       $('#feature-info').html(defaultText)
     }
   })
-
-})
+}) // closes style.load
