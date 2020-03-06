@@ -10,25 +10,25 @@ var initialZoom = 10
 // a helper function for looking up colors and s for NYC land use codes
 var LandUseLookup = (code) => {
   switch (code) {
-    case 1:
+    case 'I':
       return {
         color: '#f4f455',
         description: 'I = Protected',
       };
 
-    case 2:
+    case 'II':
       return {
         color: '#ea6661',
         description: 'II = Conventional',
       };
 
-    case 3:
+    case 'III':
       return {
         color: '#8ece7c',
         description: 'III = Signed/ Marked Route',
       };
 
-    case 4:
+    case 'L':
       return {
         color: '#5f5f60',
         description: 'L = Link',
@@ -85,20 +85,20 @@ map.on('style.load', function() {
         stops: [
           [
             'I',
-            LandUseLookup(1).color,
+            LandUseLookup('I').color,
           ],
           [
             'II',
-            LandUseLookup(2).color,
+            LandUseLookup('II').color,
           ],
           [
             'III',
-            LandUseLookup(3).color,
+            LandUseLookup('III').color,
           ],
 
           [
             'L',
-            LandUseLookup(4).color,
+            LandUseLookup('L').color,
           ],
 
         ]
@@ -130,6 +130,7 @@ map.on('style.load', function() {
   // listen for the mouse moving over the map and react when the cursor is over our data
 
   map.on('mousemove', function (e) {
+    console.log('mousemove')
     // query for the features under the mouse, but only in the lots layer
     var features = map.queryRenderedFeatures(e.point, {
         layers: ['fill-pluto-bk-cd6'],
@@ -141,9 +142,10 @@ map.on('style.load', function() {
       map.getCanvas().style.cursor = 'pointer';  // make the cursor a pointer
 
       var hoveredFeature = features[0]
+      console.log(hoveredFeature)
       var featureInfo = `
 
-        <p><strong>CLASS </strong> ${LandUseLookup(parseInt(hoveredFeature.properties.facilitycl)).description}</p>
+        <p><strong>CLASS </strong> ${LandUseLookup(hoveredFeature.properties.facilitycl).description}</p>
       `
       $('#feature-info').html(featureInfo)
 
@@ -163,4 +165,21 @@ map.on('style.load', function() {
       $('#feature-info').html(defaultText)
     }
   })
+  // //add legend
+  // var layers = ['Class I', 'Class II', 'Class III','Class L'];
+  // var colors = ['#f4f455', '#ea6661', '#8ece7c', '#5f5f60'];
+  // for (i = 0; i < layers.length; i++) {
+  //   var layer = layers[i];
+  //   var color = colors[i];
+  //   var item = document.createElement('div');
+  //   var key = document.createElement('span');
+  //   key.className = 'legend-key';
+  //   key.style.backgroundColor = color;
+  //
+  //   var value = document.createElement('span');
+  //   value.innerHTML = layer;
+  //   item.appendChild(key);
+  //   item.appendChild(value);
+  //   legend.appendChild(item);
+  // }
 }) // closes style.load
